@@ -75,6 +75,8 @@ public class ChooseAreaActivity extends Activity {
 	 */
 	private int currentLevel;
 	
+	Boolean isFromWeatherActivity;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -83,7 +85,12 @@ public class ChooseAreaActivity extends Activity {
 		 * 地区已选择，则直接跳转到天气预报界面WeatherActivity
 		 */
 		SharedPreferences sp=PreferenceManager.getDefaultSharedPreferences(this);
-		if(sp.getBoolean("city_selected",false)){
+		Intent intent0=getIntent();
+		 isFromWeatherActivity=intent0.getBooleanExtra("isFromWeatherActivity",false);
+		
+		
+		
+		if(sp.getBoolean("city_selected",false)&&!isFromWeatherActivity){
 			Intent intent=new Intent(this,WeatherActivity.class);
 			startActivity(intent);
 			finish();
@@ -268,6 +275,10 @@ public class ChooseAreaActivity extends Activity {
 				queryCity();
 			}else if(currentLevel==LEVEL_CITY){
 				queryProvince();
+				
+			}else if(isFromWeatherActivity){
+				Intent intent=new Intent(this,WeatherActivity.class);
+				startActivity(intent);
 			}else{
 				finish();
 			}

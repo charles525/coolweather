@@ -1,4 +1,4 @@
-package com.coolweather.activity;
+ package com.coolweather.activity;
 
 
 import java.io.BufferedReader;
@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -210,21 +211,25 @@ public class WeatherActivity extends Activity{
 		weatherInfoLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
-
+	/**
+	 *按钮点击事件，重新选择城市
+	 * @param view
+	 */
+	public void switchCity(View view){
+		Intent intent=new Intent(WeatherActivity.this,ChooseAreaActivity.class);
+		intent.putExtra("isFromWeatherActivity",true);
+		startActivity(intent);
+	}
+	/**
+	 * 按钮点击事件，刷新天气预报
+	 * @param view
+	 */
+	public void refreshWeather(View view){
+		SharedPreferences sp=PreferenceManager.getDefaultSharedPreferences(this);
+		String weatherCode=sp.getString("weatherCode","");
+		if(!TextUtils.isEmpty(weatherCode)){
+		queryWeaterInfo(weatherCode);
+		}
+	}
 }
